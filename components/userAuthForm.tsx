@@ -11,7 +11,8 @@ import { useToast } from "./ui/use-toast";
 
 import { redirect } from "next/navigation";
 
-import { account, ID } from "@/appwrite";
+import { account, databases, ID } from "@/appwrite";
+import { authType, role } from "@/typings";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   submitType: authType;
@@ -30,6 +31,7 @@ export function UserAuthForm({
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
+  const [role, setRole] = React.useState<string>("");
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -48,6 +50,15 @@ export function UserAuthForm({
 
   const register = async () => {
     await account.create(ID.unique(), email, password, name);
+    await databases.createDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
+      ID.unique(),
+      {
+        name: name,
+        role: role,
+      }
+    );
     login(email, password);
   };
 
@@ -79,6 +90,9 @@ export function UserAuthForm({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            <Label className="sr-only" htmlFor="email">
+              Password
+            </Label>
             <Input
               id="password"
               placeholder="Password"
@@ -90,16 +104,47 @@ export function UserAuthForm({
               onChange={(e) => setPassword(e.target.value)}
             />
             {submitType === "register" && (
-              <Input
-                id="name"
-                placeholder="Name"
-                type="name"
-                autoCapitalize="none"
-                autoCorrect="off"
-                disabled={isLoading}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <>
+                <Label className="sr-only" htmlFor="email">
+                  Name
+                </Label>
+                <Input
+                  id="name"
+                  placeholder="Name"
+                  type="name"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  disabled={isLoading}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+
+                <Label className="sr-only" htmlFor="email">
+                  role
+                </Label>
+                <select
+                  id="label"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={isLoading}
+                >
+                  <option
+                    value=""
+                    disabled
+                    className="py-1.5 pl-8 pr-2 text-sm font-semibold"
+                  >
+                    Select a Role
+                  </option>
+                  <option
+                    value="Doctor"
+                    className=" absolute left-2 flex h-3.5 justify-center w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 "
+                  >
+                    Doctor
+                  </option>
+                  <option value="Patient">Patient</option>
+                </select>
+              </>
             )}
           </div>
           <Button disabled={isLoading}>

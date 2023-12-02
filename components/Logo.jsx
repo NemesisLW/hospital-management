@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AspectRatio } from "./ui/aspect-ratio";
 import { useTheme } from "next-themes";
 import { Montserrat } from "next/font/google";
+import { cn } from "@/lib/utils";
 
 const montserrat = Montserrat({ weight: ["700"], subsets: ["latin"] });
 
@@ -16,8 +17,10 @@ function Logo() {
           className="flex items-center justify-center"
         >
           <p
-            class="text-7xl font-bold text-gray-900 dark:text-white"
-            className={montserrat.className}
+            className={cn(
+              "text-7xl font-bold text-gray-900 dark:text-white",
+              montserrat.className
+            )}
           >
             HMS
           </p>

@@ -16,10 +16,12 @@ import { useEffect, useState } from "react";
 import { Icons } from "../icons";
 import Link from "next/link";
 
-import { account, ID } from "@/appwrite";
+import { account, ID, databases } from "@/appwrite";
+import { Query } from "appwrite";
 
 function UserButton({ session }: { session: Session | null }) {
   const [loggedInUser, setLoggedInUser] = useState<any>(null);
+  const [role, setRole] = useState<string>("");
 
   useEffect(() => {
     const fetchLoggedInUser = async () => {
@@ -30,6 +32,21 @@ function UserButton({ session }: { session: Session | null }) {
 
     fetchLoggedInUser();
   }, [session, loggedInUser]);
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (loggedInUser) {
+        const user = await databases.listDocuments(
+          process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+          process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
+          [Query.equal("name", [loggedInUser.name])]
+        );
+        setRole(user?.documents[0].role);
+      }
+    };
+
+    fetchRole();
+  }, [loggedInUser]);
 
   const logout = async () => {
     await account.deleteSession("current");
@@ -97,6 +114,8 @@ function UserButton({ session }: { session: Session | null }) {
         <DropdownMenu>
           <DropdownMenuTrigger>Hello, {loggedInUser.name}</DropdownMenuTrigger>
           <DropdownMenuContent>
+            <DropdownMenuLabel>{role}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
             <DropdownMenuLabel>{loggedInUser.email}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>

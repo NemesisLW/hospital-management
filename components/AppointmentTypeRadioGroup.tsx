@@ -1,14 +1,13 @@
 "use client";
 
-import { useBoardStore } from "@/store/BoardStore";
+import { useRecordStore } from "@/store/RecordStore";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircle } from "lucide-react";
 
 function AppointmentTypeRadioGroup() {
-  const [newAppointmentType, setNewAppointmentType] = useBoardStore((state) => [
-    state.newAppointmentType,
-    state.setNewAppointmentType,
-  ]);
+  const [newAppointmentType, setNewAppointmentType] = useRecordStore(
+    (state) => [state.newAppointmentType, state.setNewAppointmentType]
+  );
   return (
     <div className="w-full py-5">
       <div className="mx-auto w-full max-w-md">
@@ -73,36 +72,40 @@ function AppointmentTypeRadioGroup() {
     </div>
   );
 }
-
 const types = [
   {
     id: "general",
-    name: "General",
-    description: "A new Appointment to be completed",
+    name: "General Checkup",
+    description:
+      "Schedule a new appointment for a routine checkup with a healthcare professional.",
     color: "bg-blue-400",
   },
   {
     id: "heart",
-    name: "Heart",
-    description: "A Work in Progress",
-    color: "bg-blue-500",
+    name: "Cardiology Consultation",
+    description:
+      "Book an appointment for ongoing care or consultation related to heart health.",
+    color: "bg-blue-400",
   },
   {
     id: "bone",
-    name: "Bone",
-    description: "Shit Done",
-    color: "bg-blue-600",
+    name: "Orthopedic Evaluation",
+    description:
+      "Arrange an appointment for orthopedic assessment or follow-up on musculoskeletal issues.",
+    color: "bg-blue-400",
   },
   {
     id: "kidney",
-    name: "Kidney",
-    description: "Shit Done",
+    name: "Nephrology Session",
+    description:
+      "Schedule a session with a nephrologist for kidney-related concerns or follow-up.",
     color: "bg-blue-600",
   },
   {
     id: "eye",
-    name: "Eye",
-    description: "Shit Done",
+    name: "Ophthalmology Appointment",
+    description:
+      "Book an appointment with an eye specialist for eye health examination or concerns.",
     color: "bg-blue-600",
   },
 ];

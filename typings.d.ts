@@ -1,21 +1,24 @@
-interface Appointment {
+import { ISODateString } from "next-auth";
+
+interface Record {
   columns: Map<TypedColumn, Column>;
 }
 
 type TypedColumn = "general" | "bone" | "heart" | "eye" | "kidney";
 type authType = "login" | "register";
+type role = "doctor" | "patient";
 
 interface Column {
   id: TypedColumn;
-  appointments: Details[];
+  appointments: Appointment[];
 }
 
-interface Details {
+interface Appointment {
   $id: string;
   $createdAt: string;
   title: string;
   category: TypedColumn;
-  datetime: Date;
+  datetime: ISODateString;
   patient: string;
   doctor: string;
 }

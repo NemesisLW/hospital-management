@@ -1,9 +1,11 @@
+import Header from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main>
+      <Header />
       <div className="relative isolate pt-14 dark:bg-gray-900">
         <div
           className="absolute inset-x-0 top-28 -z-10 transform-gpu overflow-hidden blur-3xl "

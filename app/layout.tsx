@@ -1,5 +1,4 @@
 import "./globals.css";
-import Header from "@/components/Header";
 import { Toaster } from "@/components/ui/toaster";
 import ClientProvider from "@/components/Providers/ClientProvider";
 import { ThemeProvider } from "@/components/Providers/ThemeProvider";
@@ -26,7 +25,6 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header />
             {children}
             <Modal />
             <Toaster />

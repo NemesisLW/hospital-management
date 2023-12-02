@@ -1,8 +1,8 @@
 "use client";
-import { FormEvent, Fragment, useRef } from "react";
+import { FormEvent, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useModalStore } from "@/store/ModalStore";
-import { useBoardStore } from "@/store/BoardStore";
+import { useRecordStore } from "@/store/RecordStore";
 import AppointmentTypeRadioGroup from "./AppointmentTypeRadioGroup";
 
 function Modal() {
@@ -12,11 +12,23 @@ function Modal() {
   ]);
 
   const [
+    doctor,
+    patient,
+    datetime,
+    setDoctor,
+    setPatient,
+    setDatetime,
     newAppointmentType,
     newAppointment,
     setNewAppointment,
     addAppointment,
-  ] = useBoardStore((state) => [
+  ] = useRecordStore((state) => [
+    state.doctorName,
+    state.patientName,
+    state.datetime,
+    state.setDoctorName,
+    state.setPatientName,
+    state.setDateTime,
     state.newAppointmentType,
     state.newAppointment,
     state.setNewAppointment,
@@ -28,7 +40,13 @@ function Modal() {
     if (!newAppointment) return;
 
     //  Add Appointment Function
-    addAppointment(newAppointment, newAppointmentType);
+    addAppointment(
+      newAppointment,
+      newAppointmentType,
+      patient,
+      doctor,
+      datetime
+    );
 
     closeModal();
   };
@@ -39,7 +57,7 @@ function Modal() {
       <Dialog
         as="form"
         onSubmit={handleSubmit}
-        className="relative z-10"
+        className="relative z-50"
         onClose={closeModal}
       >
         <Transition.Child
@@ -77,13 +95,20 @@ function Modal() {
                 >
                   Add a Appointment
                 </Dialog.Title>
-                <div className="mt-2">
+                <div className="mt-2 space-y-2">
                   <input
                     type="text"
                     value={newAppointment}
                     onChange={(e) => setNewAppointment(e.target.value)}
                     placeholder="Enter a Appointment here..."
-                    className="w-full border border-gray-300 rounded-md outline-none p-5"
+                    className="w-full border bg-white text-black border-gray-300 rounded-md outline-none p-5"
+                  />
+                  <input
+                    type="text"
+                    value={doctor}
+                    onChange={(e) => setDoctor(e.target.value)}
+                    placeholder="Enter Doctor's Name here..."
+                    className="w-full border bg-white text-black border-gray-300 rounded-md outline-none p-5"
                   />
                 </div>
 
