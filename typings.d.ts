@@ -1,6 +1,4 @@
-import { ISODateString } from "next-auth";
-
-interface Record {
+interface AppointmentRecord {
   columns: Map<TypedColumn, Column>;
 }
 
@@ -18,7 +16,7 @@ interface Appointment {
   $createdAt: string;
   title: string;
   category: TypedColumn;
-  datetime: ISODateString;
+  datetime: Date;
   patient: string;
   doctor: string;
 }

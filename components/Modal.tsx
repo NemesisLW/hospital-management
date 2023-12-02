@@ -4,6 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useModalStore } from "@/store/ModalStore";
 import { useRecordStore } from "@/store/RecordStore";
 import AppointmentTypeRadioGroup from "./AppointmentTypeRadioGroup";
+import AppointmentDateTimePicker from "./AppointmentDateTimePicker";
 
 function Modal() {
   const [isOpen, closeModal] = useModalStore((state) => [
@@ -17,7 +18,6 @@ function Modal() {
     datetime,
     setDoctor,
     setPatient,
-    setDatetime,
     newAppointmentType,
     newAppointment,
     setNewAppointment,
@@ -28,7 +28,6 @@ function Modal() {
     state.datetime,
     state.setDoctorName,
     state.setPatientName,
-    state.setDateTime,
     state.newAppointmentType,
     state.newAppointment,
     state.setNewAppointment,
@@ -105,6 +104,13 @@ function Modal() {
                   />
                   <input
                     type="text"
+                    value={patient}
+                    onChange={(e) => setPatient(e.target.value)}
+                    placeholder="Enter Patient's Name here..."
+                    className="w-full border bg-white text-black border-gray-300 rounded-md outline-none p-5"
+                  />
+                  <input
+                    type="text"
                     value={doctor}
                     onChange={(e) => setDoctor(e.target.value)}
                     placeholder="Enter Doctor's Name here..."
@@ -114,6 +120,7 @@ function Modal() {
 
                 {/* Radio */}
                 <AppointmentTypeRadioGroup />
+                <AppointmentDateTimePicker />
 
                 <div className="mt-2">
                   <button

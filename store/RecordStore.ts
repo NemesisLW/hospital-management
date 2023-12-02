@@ -1,21 +1,19 @@
 import { ID, databases, account } from "@/appwrite";
-import { Appointment, Column, Record, TypedColumn } from "@/typings";
-import { ISODateString } from "next-auth";
 import { create } from "zustand";
 
 interface RecordState {
-  record: Record;
-  setRecordState: (record: Record) => void;
+  record: AppointmentRecord;
+  setRecordState: (record: AppointmentRecord) => void;
   newAppointment: string;
   doctorName: string;
   patientName: string;
   newAppointmentType: TypedColumn;
-  datetime: ISODateString;
+  datetime: Date;
   setNewAppointment: (input: string) => void;
   setDoctorName: (input: string) => void;
   setPatientName: (input: string) => void;
   setNewAppointmentType: (columnId: TypedColumn) => void;
-  setDateTime: (input: ISODateString) => void;
+  setDateTime: (input: Date) => void;
 
   updateDB: (appointment: Appointment, columnId: TypedColumn) => void;
   addAppointment: (
@@ -23,7 +21,7 @@ interface RecordState {
     columnId: TypedColumn,
     patientName: string,
     doctorName: string,
-    dateTime: ISODateString
+    dateTime: Date
   ) => void;
 }
 
@@ -33,7 +31,7 @@ export const useRecordStore = create<RecordState>((set, get) => ({
   newAppointmentType: "general",
   patientName: "",
   doctorName: "",
-  datetime: "1970-01-01T00:00:00.000Z",
+  datetime: new Date(),
 
   setRecordState: (record) => set({ record }),
 
@@ -46,7 +44,7 @@ export const useRecordStore = create<RecordState>((set, get) => ({
   setPatientName(input: string) {
     set({ patientName: input });
   },
-  setDateTime(input: ISODateString) {
+  setDateTime(input: Date) {
     set({ datetime: input });
   },
 
@@ -93,7 +91,7 @@ export const useRecordStore = create<RecordState>((set, get) => ({
       newAppointment: "",
       doctorName: "",
       patientName: "",
-      datetime: "1970-01-01T00:00:00.000Z",
+      datetime: new Date(),
     });
   },
 }));

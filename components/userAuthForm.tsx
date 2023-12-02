@@ -12,7 +12,6 @@ import { useToast } from "./ui/use-toast";
 import { redirect } from "next/navigation";
 
 import { account, databases, ID } from "@/appwrite";
-import { authType, role } from "@/typings";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   submitType: authType;

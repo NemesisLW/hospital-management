@@ -9,7 +9,7 @@ interface SessionState {
   setRole: (role: string) => void;
 }
 
-export const useModalStore = create<SessionState>()((set) => ({
+export const useSessionStore = create<SessionState>()((set) => ({
   isLoggedIn: false,
   logout: () => set({ isLoggedIn: false }),
   name: "",
