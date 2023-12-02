@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
-import LogoBlack from "@/public/logoBlack.svg";
-import logoWhite from "@/public/logoWhite.svg";
 import { AspectRatio } from "./ui/aspect-ratio";
 import { useTheme } from "next-themes";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({ weight: ["700"], subsets: ["latin"] });
 
 function Logo() {
   const { theme } = useTheme();
@@ -15,12 +15,12 @@ function Logo() {
           ratio={16 / 9}
           className="flex items-center justify-center"
         >
-          <Image
-            priority
-            src={theme === "light" ? LogoBlack : logoWhite}
-            alt="Logo"
-            className="rounded-full"
-          />
+          <p
+            class="text-7xl font-bold text-gray-900 dark:text-white"
+            className={montserrat.className}
+          >
+            HMS
+          </p>
         </AspectRatio>
       </div>
     </Link>

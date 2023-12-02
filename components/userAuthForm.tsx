@@ -7,26 +7,64 @@ import { Icons } from "@/components/icons";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useToast } from "./ui/use-toast";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+import { redirect } from "next/navigation";
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+import { account, ID } from "@/appwrite";
+
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  submitType: authType;
+}
+
+export function UserAuthForm({
+  className,
+  submitType,
+  ...props
+}: UserAuthFormProps) {
+  const { toast } = useToast();
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  const [loggedInUser, setLoggedInUser] = React.useState<any>(null);
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+  const [name, setName] = React.useState<string>("");
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
-    setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    if (submitType === "login") {
+      await login(email, password);
+    } else if (submitType === "register") {
+      await register();
+    }
+  }
+
+  const login = async (email: any, password: any) => {
+    const session = await account.createEmailSession(email, password);
+    setLoggedInUser(await account.get());
+  };
+
+  const register = async () => {
+    await account.create(ID.unique(), email, password, name);
+    login(email, password);
+  };
+
+  if (loggedInUser) {
+    toast({
+      title: `Logged in as ${loggedInUser.name}`,
+      description: "Redirecting to home page...",
+    });
+
+    redirect("/");
   }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={onSubmit}>
         <div className="grid gap-2">
-          <div className="grid gap-1">
+          <div className="grid gap-2 pb-2">
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
@@ -38,7 +76,31 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
+            <Input
+              id="password"
+              placeholder="Password"
+              type="password"
+              autoCapitalize="none"
+              autoCorrect="off"
+              disabled={isLoading}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {submitType === "register" && (
+              <Input
+                id="name"
+                placeholder="Name"
+                type="name"
+                autoCapitalize="none"
+                autoCorrect="off"
+                disabled={isLoading}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            )}
           </div>
           <Button disabled={isLoading}>
             {isLoading && (
@@ -52,28 +114,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </Button>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </Button>
     </div>
   );
 }

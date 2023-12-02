@@ -21,26 +21,20 @@ export default function Home() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
               <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-                Find Your Daddy!
+                Take Control of Your Health Journey!
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-                orci porta non pulvinar neque.
+                Embrace Health,{" "}
                 <span className="text-blue-600 dark:text-blue-500">
-                  orci porta non pulvinar neque
+                  Embrace Life
                 </span>
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link
-                  href="/chat"
+                  href="/login"
                   className="rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white dark:text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
                   Get started
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300"
-                >
-                  View Pricing <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
@@ -49,7 +43,7 @@ export default function Home() {
               <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                 <Image
                   unoptimized
-                  src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdXB5aW0xbnprcWdnYmh5bGlnd2NhdHpqNmVrazBpcnEyMHduaTZscCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/oGq1LQMtF31Wo/giphy.gif"
+                  src="https://cdn.pixabay.com/photo/2018/12/13/08/01/hospital-3872344_1280.jpg"
                   alt="App screenshot"
                   width={2432}
                   height={1442}
