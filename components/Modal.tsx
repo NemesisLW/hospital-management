@@ -99,7 +99,7 @@ function Modal() {
                     type="text"
                     value={newAppointment}
                     onChange={(e) => setNewAppointment(e.target.value)}
-                    placeholder="Enter a Appointment here..."
+                    placeholder="Enter Appointment Details here..."
                     className="w-full border bg-white text-black border-gray-300 rounded-md outline-none p-5"
                   />
                   <input
