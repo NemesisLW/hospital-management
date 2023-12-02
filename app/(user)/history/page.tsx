@@ -3,7 +3,7 @@ import { databases } from "@/appwrite";
 import { Models, Query } from "appwrite";
 import { useEffect, useState } from "react";
 
-function page() {
+function History() {
   const [history, setHistory] = useState<Models.Document[]>([]);
 
   useEffect(() => {
@@ -75,4 +75,4 @@ function page() {
   );
 }
 
-export default page;
+export default History;
