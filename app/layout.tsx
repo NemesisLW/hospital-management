@@ -2,6 +2,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ClientProvider from "@/components/Providers/ClientProvider";
 import { ThemeProvider } from "@/components/Providers/ThemeProvider";
+
 import Modal from "@/components/Modal";
 
 export const metadata = {
