@@ -4,7 +4,7 @@ interface AppointmentRecord {
 
 type TypedColumn = "general" | "bone" | "heart" | "eye" | "kidney";
 type authType = "login" | "register";
-type role = "doctor" | "patient";
+type role = "doctor" | "patient" | null;
 
 interface Column {
   id: TypedColumn;

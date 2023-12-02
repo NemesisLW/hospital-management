@@ -31,6 +31,7 @@ export function UserAuthForm({
   const [password, setPassword] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
   const [role, setRole] = React.useState<string>("");
+  const [specialization, setSpecialization] = React.useState<string>("");
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -56,6 +57,8 @@ export function UserAuthForm({
       {
         name: name,
         role: role,
+        email: email,
+        specialization: role === "Doctor" ? specialization : undefined,
       }
     );
     login(email, password);
@@ -137,12 +140,44 @@ export function UserAuthForm({
                   </option>
                   <option
                     value="Doctor"
-                    className=" absolute left-2 flex h-3.5 justify-center w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 "
+                    className="py-1.5 pl-8 pr-2 text-sm font-semibold"
                   >
                     Doctor
                   </option>
-                  <option value="Patient">Patient</option>
+                  <option
+                    value="Patient"
+                    className="py-1.5 pl-8 pr-2 text-sm font-semibold"
+                  >
+                    Patient
+                  </option>
                 </select>
+
+                {role === "Doctor" && (
+                  <select
+                    id="specialization"
+                    value={specialization}
+                    onChange={(e) => setSpecialization(e.target.value)}
+                    className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={isLoading}
+                  >
+                    <option
+                      value=""
+                      disabled
+                      className="py-1.5 pl-8 pr-2 text-sm font-semibold"
+                    >
+                      Select Specialization
+                    </option>
+                    {DoctorSpecializations.map((specialization) => (
+                      <option
+                        key={specialization.id}
+                        value={specialization.id}
+                        className={`py-1.5 pl-8 pr-2 text-sm font-semibold`}
+                      >
+                        {specialization.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </>
             )}
           </div>
@@ -162,3 +197,11 @@ export function UserAuthForm({
     </div>
   );
 }
+
+const DoctorSpecializations = [
+  { id: "cardiologist", name: "Cardiologist", color: "bg-blue-400" },
+  { id: "dermatologist", name: "Dermatologist", color: "bg-blue-400" },
+  { id: "orthopedic", name: "Orthopedic", color: "bg-blue-400" },
+  { id: "nephrologist", name: "Nephrologist", color: "bg-blue-600" },
+  { id: "ophthalmologist", name: "Ophthalmologist", color: "bg-blue-600" },
+];
