@@ -24,7 +24,7 @@ async function Header() {
               <CreateAppointmentButton />
             </>
           ) : (
-            <Link href="/"> Pricing</Link>
+            <Link href="/doctors"> Doctors</Link>
           )}
           {/* DarkModeToggle & Avatar Button */}
           <DarkModeToggle />

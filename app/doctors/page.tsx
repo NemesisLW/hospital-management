@@ -1,7 +1,11 @@
 "use client";
 import { databases } from "@/appwrite";
+import { cn } from "@/lib/utils";
 import { Models, Query } from "appwrite";
+import { Montserrat } from "next/font/google";
 import { useEffect, useState } from "react";
+
+const montserrat = Montserrat({ weight: ["700"], subsets: ["latin"] });
 
 function Doctors() {
   const [doctors, setDoctors] = useState<Models.Document[]>([]);
@@ -24,6 +28,16 @@ function Doctors() {
   }
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <label>
+        <p
+          className={cn(
+            "text-2xl font-bold text-gray-900 dark:text-white pb-2",
+            montserrat.className
+          )}
+        >
+          Doctor's List{" "}
+        </p>
+      </label>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
