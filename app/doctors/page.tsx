@@ -1,43 +1,24 @@
 "use client";
 import { databases } from "@/appwrite";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { cn } from "@/lib/utils";
 import { Models, Query } from "appwrite";
 import { Montserrat } from "next/font/google";
 import { useEffect, useState } from "react";
+import { Suspense } from "react";
 
 const montserrat = Montserrat({ weight: ["700"], subsets: ["latin"] });
 
 function Doctors() {
-  const [doctors, setDoctors] = useState<Models.Document[]>([]);
+  const DoctorList = async () => {
+    const doctors = await databases.listDocuments(
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
+      [Query.equal("role", ["Doctor"])]
+    );
+    const list = doctors.documents;
 
-  useEffect(() => {
-    const fetchDoctors = async () => {
-      const doctors = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        process.env.NEXT_PUBLIC_APPWRITE_USERS_COLLECTION_ID!,
-        [Query.equal("role", ["Doctor"])]
-      );
-      setDoctors(doctors.documents);
-    };
-
-    fetchDoctors();
-  }, []);
-
-  function capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-  return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <label>
-        <p
-          className={cn(
-            "text-2xl font-bold text-gray-900 dark:text-white pb-2",
-            montserrat.className
-          )}
-        >
-          Doctor&apos; List{" "}
-        </p>
-      </label>
+    return (
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -56,7 +37,7 @@ function Doctors() {
           </tr>
         </thead>
         <tbody>
-          {doctors.map((doctor) => (
+          {list.map((doctor) => (
             <tr
               key={doctor.$id}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -76,6 +57,27 @@ function Doctors() {
           ))}
         </tbody>
       </table>
+    );
+  };
+
+  function capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  return (
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <label>
+        <p
+          className={cn(
+            "text-2xl font-bold text-gray-900 dark:text-white px-2 py-3",
+            montserrat.className
+          )}
+        >
+          Doctor&apos; List
+        </p>
+      </label>
+      <Suspense fallback={<LoadingSpinner />}>
+        <DoctorList />
+      </Suspense>
     </div>
   );
 }
