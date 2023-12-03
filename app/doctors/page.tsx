@@ -35,7 +35,7 @@ function Doctors() {
             montserrat.className
           )}
         >
-          Doctor's List{" "}
+          Doctor&apos; List{" "}
         </p>
       </label>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
